@@ -58,6 +58,7 @@ function mapFirebaseError(code: string): string {
     "auth/user-not-found": "No account found with this email.",
     "auth/wrong-password": "Incorrect password.",
     "auth/invalid-credential": "Invalid email or password.",
+    "auth/invalid-login-credentials": "Invalid email or password.",
     "auth/too-many-requests": "Too many attempts. Please try again later.",
     "auth/operation-not-allowed": "Email/password sign-in is not enabled. Enable it in Firebase Console → Authentication.",
     "auth/network-request-failed": "Network error. Check your internet connection.",
@@ -144,7 +145,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     try {
       const firebaseUser = await firebaseLogin(email, password);
-      sessionStorage.setItem("campussync_demo_pending", email);
+      try {
+        sessionStorage.setItem("campussync_demo_pending", email);
+      } catch {
+        // ignore
+      }
 
       const profile = await getUserProfile(firebaseUser.uid);
       if (profile) setUser(profile);
