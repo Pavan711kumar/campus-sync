@@ -65,11 +65,7 @@ export async function verifyEmailOTP(
 }
 
 export function isDemoMode(): boolean {
-  return (
-    process.env.NEXT_PUBLIC_DEMO_MODE?.trim() === "true" ||
-    !process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim() ||
-    process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim() === "your_api_key"
-  );
+  return process.env.NEXT_PUBLIC_DEMO_MODE?.trim() === "true";
 }
 
 export function getDemoUser(): UserProfile | null {
