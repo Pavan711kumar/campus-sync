@@ -61,8 +61,9 @@ function mapFirebaseError(code: string): string {
     "auth/too-many-requests": "Too many attempts. Please try again later.",
     "auth/operation-not-allowed": "Email/password sign-in is not enabled. Enable it in Firebase Console → Authentication.",
     "auth/network-request-failed": "Network error. Check your internet connection.",
+    "auth/unauthorized-domain": "This domain is not authorized for Firebase Auth. Add it in Firebase Console.",
   };
-  return messages[code] ?? "Authentication failed. Please try again.";
+  return messages[code] ?? `Authentication failed. (${code || "Unknown Error"})`;
 }
 
 function buildPartialProfile(firebaseUser: { uid: string; email: string | null }): UserProfile {
