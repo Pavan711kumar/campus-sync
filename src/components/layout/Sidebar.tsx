@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
+import { useUI } from "@/context/UIContext";
 import { Avatar } from "@/components/ui/Avatar";
 import { APP_NAME } from "@/lib/constants";
 import { useState } from "react";
@@ -63,15 +64,25 @@ interface SidebarProps {
 export function Sidebar({ items }: SidebarProps) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const { isMobileMenuOpen, closeMobileMenu } = useUI();
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <aside
-      className={cn(
-        "sticky top-0 h-screen flex flex-col bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 transition-all duration-300 z-40",
-        collapsed ? "w-[72px]" : "w-64"
+    <>
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm transition-opacity"
+          onClick={closeMobileMenu}
+        />
       )}
-    >
+      <aside
+        className={cn(
+          "h-screen flex flex-col bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 transition-all duration-300 z-50",
+          "fixed inset-y-0 left-0 transform md:relative md:translate-x-0 md:sticky md:top-0",
+          isMobileMenuOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full",
+          collapsed ? "w-[72px]" : "w-64"
+        )}
+      >
       <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800">
         {!collapsed && (
           <Link href="/" className="flex items-center gap-2">
@@ -83,7 +94,7 @@ export function Sidebar({ items }: SidebarProps) {
         )}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="p-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-muted"
+          className="hidden md:flex p-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-muted"
         >
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </button>
@@ -104,6 +115,7 @@ export function Sidebar({ items }: SidebarProps) {
                   : "text-muted hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-foreground"
               )}
               title={collapsed ? item.label : undefined}
+              onClick={() => closeMobileMenu()}
             >
               <Icon className="h-5 w-5 shrink-0" />
               {!collapsed && <span>{item.label}</span>}
@@ -137,5 +149,6 @@ export function Sidebar({ items }: SidebarProps) {
         )}
       </div>
     </aside>
+    </>
   );
 }

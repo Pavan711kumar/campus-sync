@@ -6,6 +6,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { RequestsProvider } from "@/context/RequestsContext";
 import { FacultyProvider } from "@/context/FacultyContext";
+import { UIProvider } from "@/context/UIContext";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { initAnalytics } from "@/lib/firebase/analytics";
 import { ensureFirestoreOnline } from "@/lib/firebase/connection";
@@ -31,13 +32,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <RequestsProvider>
-          <FacultyProvider>
-            <ScrollToTop />
-            {children}
-            <Toaster position="top-right" richColors closeButton />
-          </FacultyProvider>
-        </RequestsProvider>
+        <UIProvider>
+          <RequestsProvider>
+            <FacultyProvider>
+              <ScrollToTop />
+              {children}
+              <Toaster position="top-right" richColors closeButton />
+            </FacultyProvider>
+          </RequestsProvider>
+        </UIProvider>
       </AuthProvider>
     </ThemeProvider>
   );
