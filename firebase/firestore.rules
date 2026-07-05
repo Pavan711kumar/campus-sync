@@ -1,0 +1,147 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function hasRole(role) {
+      return isAuthenticated() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+    }
+
+    function isVerified() {
+      return isAuthenticated() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isVerified == true;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if false;
+    }
+
+    // Profiles collection
+    match /profiles/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) && isVerified();
+    }
+
+    // Projects / Collaborations
+    match /projects/{projectId} {
+      allow read: if isAuthenticated();
+      allow create: if isVerified();
+      allow update: if isVerified() &&
+        (resource.data.creatorId == request.auth.uid ||
+         request.auth.uid in resource.data.memberIds);
+      allow delete: if isVerified() && resource.data.creatorId == request.auth.uid;
+    }
+
+    match /collaborations/{collabId} {
+      allow read: if isAuthenticated();
+      allow create: if isVerified();
+      allow update: if isVerified();
+    }
+
+    // Appointments
+    match /appointments/{appointmentId} {
+      allow read: if isAuthenticated() &&
+        (resource.data.studentId == request.auth.uid ||
+         resource.data.facultyId == request.auth.uid);
+      allow create: if isVerified() && hasRole('student');
+      allow update: if isAuthenticated() &&
+        (resource.data.studentId == request.auth.uid ||
+         resource.data.facultyId == request.auth.uid);
+    }
+
+    // Academic Records
+    match /academicRecords/{recordId} {
+      allow read: if isAuthenticated() &&
+        (resource.data.studentId == request.auth.uid || hasRole('faculty'));
+      allow write: if hasRole('faculty');
+    }
+
+    match /attendance/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if hasRole('faculty');
+    }
+
+    // Forum
+    match /forumQuestions/{questionId} {
+      allow read: if isAuthenticated();
+      allow create: if isVerified();
+      allow update: if isVerified();
+    }
+
+    match /forumAnswers/{answerId} {
+      allow read: if isAuthenticated();
+      allow create: if isVerified();
+      allow update: if isVerified() && resource.data.authorId == request.auth.uid;
+    }
+
+    // Equipment & Rentals
+    match /equipment/{equipmentId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isVerified();
+    }
+
+    match /rentals/{rentalId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isVerified();
+    }
+
+    // Ride Sharing
+    match /rides/{rideId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isVerified();
+    }
+
+    // Errands
+    match /errands/{errandId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isVerified();
+    }
+
+    // Events & Volunteering
+    match /events/{eventId} {
+      allow read: if isAuthenticated();
+      allow create: if isVerified();
+      allow update: if isVerified();
+    }
+
+    // Notifications
+    match /notifications/{notificationId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isAuthenticated();
+      allow update: if isOwner(resource.data.userId);
+    }
+
+    // Reviews
+    match /reviews/{reviewId} {
+      allow read: if isAuthenticated();
+      allow create: if isVerified();
+    }
+
+    // Payments
+    match /payments/{paymentId} {
+      allow read: if isAuthenticated() &&
+        (resource.data.payerId == request.auth.uid ||
+         resource.data.payeeId == request.auth.uid);
+      allow create: if isVerified();
+    }
+
+    // Feedback
+    match /feedback/{feedbackId} {
+      allow read: if isAuthenticated();
+      allow create: if isVerified() && hasRole('student');
+    }
+  }
+}
