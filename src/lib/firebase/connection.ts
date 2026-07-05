@@ -1,4 +1,4 @@
-import { enableNetwork, waitForPendingWrites } from "firebase/firestore";
+import { enableNetwork } from "firebase/firestore";
 import { getFirebaseDb, isDemoMode } from "@/lib/firebase/config";
 
 let connectionReady: Promise<void> | null = null;
@@ -15,7 +15,6 @@ export async function ensureFirestoreOnline(): Promise<void> {
       const db = getFirebaseDb();
       try {
         await enableNetwork(db);
-        await waitForPendingWrites(db);
       } catch {
         // Network may already be enabled
       }
