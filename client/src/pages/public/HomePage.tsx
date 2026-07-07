@@ -6,6 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { GraduationCap, ArrowRight, FolderSearch, Lock } from 'lucide-react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../../lib/firebase';
+import { toast } from 'sonner';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -13,21 +17,35 @@ const HomePage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate login based on email for demo purposes
-    setTimeout(() => {
-      setIsLoading(false);
-      if (email.includes('admin')) {
-        navigate('/admin');
-      } else if (email.includes('teacher')) {
-        navigate('/teacher');
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
+      
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        toast.success('Welcome back!');
+        
+        if (userData.role === 'admin') {
+          navigate('/admin');
+        } else if (userData.role === 'teacher') {
+          navigate('/teacher');
+        } else {
+          navigate('/student');
+        }
       } else {
-        navigate('/student');
+        toast.error('User profile not found');
+        await auth.signOut();
       }
-    }, 800);
+    } catch (error: any) {
+      console.error('Login error:', error);
+      toast.error(error.message || 'Invalid email or password');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -97,7 +115,7 @@ const HomePage: React.FC = () => {
                   />
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="flex flex-col gap-4">
                 <Button 
                   className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-md transition-all duration-300" 
                   type="submit"
@@ -106,6 +124,16 @@ const HomePage: React.FC = () => {
                   {isLoading ? 'Signing in...' : 'Sign In'}
                   {!isLoading && <ArrowRight className="w-4 h-4 ml-2" />}
                 </Button>
+                <div className="text-sm text-center text-slate-500">
+                  Don't have an account?{' '}
+                  <button 
+                    type="button"
+                    onClick={() => navigate('/register')}
+                    className="text-purple-600 dark:text-purple-400 font-semibold hover:underline"
+                  >
+                    Register here
+                  </button>
+                </div>
               </CardFooter>
             </form>
           </Card>

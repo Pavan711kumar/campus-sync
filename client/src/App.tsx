@@ -9,19 +9,23 @@ import InternshipPage from './pages/student/InternshipPage';
 import PublicDrivePage from './pages/public/PublicDrivePage';
 
 import HomePage from './pages/public/HomePage';
+import RegisterPage from './pages/public/RegisterPage';
 
 import { TeacherLayout } from './components/layout/TeacherLayout';
 import TeacherDashboardPage from './pages/teacher/TeacherDashboardPage';
 
 import { AdminLayout } from './components/layout/AdminLayout';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   return (
-    <BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/drive" element={<PublicDrivePage />} />
         
         {/* Student Routes */}
@@ -55,6 +59,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 
