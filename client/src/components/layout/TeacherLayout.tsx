@@ -1,12 +1,13 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, BookOpen, MessageSquare, HandHeart, Settings } from 'lucide-react';
+import { LayoutDashboard, BookOpen, MessageSquare, HandHeart, Settings, Calendar } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { title: 'Dashboard', icon: LayoutDashboard, href: '/teacher' },
-  { title: 'Student Doubts', icon: MessageSquare, href: '/teacher/doubts' },
+  { title: 'Schedule Upload', icon: Calendar, href: '/teacher/schedule' },
+  { title: 'Student Requests', icon: MessageSquare, href: '/teacher/requests' },
   { title: 'Manage Drive', icon: BookOpen, href: '/teacher/drive' },
   { title: 'Feedback Analytics', icon: HandHeart, href: '/teacher/feedback' },
   { title: 'Settings', icon: Settings, href: '/teacher/settings' },

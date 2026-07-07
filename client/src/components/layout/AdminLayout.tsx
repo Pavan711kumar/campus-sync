@@ -1,15 +1,14 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, UserPlus, Briefcase, Settings, ShieldAlert } from 'lucide-react';
+import { LayoutDashboard, Users, Bell, BarChart3, Settings } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { title: 'Overview', icon: LayoutDashboard, href: '/admin' },
-  { title: 'Manage Users', icon: Users, href: '/admin/users' },
-  { title: 'Approve Teachers', icon: UserPlus, href: '/admin/approvals' },
-  { title: 'Internships', icon: Briefcase, href: '/admin/internships' },
-  { title: 'System Logs', icon: ShieldAlert, href: '/admin/logs' },
+  { title: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
+  { title: 'User Management', icon: Users, href: '/admin/users' },
+  { title: 'Notification Center', icon: Bell, href: '/admin/notifications' },
+  { title: 'Analytics', icon: BarChart3, href: '/admin/analytics' },
   { title: 'Settings', icon: Settings, href: '/admin/settings' },
 ];
 

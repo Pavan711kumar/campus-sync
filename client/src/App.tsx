@@ -16,7 +16,11 @@ import TeacherDashboardPage from './pages/teacher/TeacherDashboardPage';
 
 import { AdminLayout } from './components/layout/AdminLayout';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import UserManagementPage from './pages/admin/UserManagementPage';
+import NotificationCenterPage from './pages/admin/NotificationCenterPage';
 import { AuthProvider } from './contexts/AuthContext';
+import ScheduleUploadPage from './pages/teacher/ScheduleUploadPage';
+import RequestManagementPage from './pages/teacher/RequestManagementPage';
 
 function App() {
   return (
@@ -42,8 +46,9 @@ function App() {
         {/* Teacher Routes */}
         <Route path="/teacher" element={<TeacherLayout />}>
           <Route index element={<TeacherDashboardPage />} />
-          <Route path="doubts" element={<div className="p-10">Doubts Management Coming Soon</div>} />
-          <Route path="drive" element={<div className="p-10">Drive Management Coming Soon</div>} />
+          <Route path="schedule" element={<ScheduleUploadPage />} />
+          <Route path="requests" element={<RequestManagementPage />} />
+          <Route path="drive" element={<div className="p-10">Manage Drive Coming Soon</div>} />
           <Route path="feedback" element={<div className="p-10">Feedback Analytics Coming Soon</div>} />
           <Route path="settings" element={<div className="p-10">Settings Coming Soon</div>} />
         </Route>
@@ -51,7 +56,8 @@ function App() {
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
-          <Route path="users" element={<div className="p-10">User Management Coming Soon</div>} />
+          <Route path="users" element={<UserManagementPage />} />
+          <Route path="notifications" element={<NotificationCenterPage />} />
           <Route path="approvals" element={<div className="p-10">Teacher Approvals Coming Soon</div>} />
           <Route path="internships" element={<div className="p-10">Internship Moderation Coming Soon</div>} />
           <Route path="logs" element={<div className="p-10">System Logs Coming Soon</div>} />
