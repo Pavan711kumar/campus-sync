@@ -10,6 +10,8 @@ app.use(cors());
 app.use(express.json());
 
 import userRoutes from './routes/userRoutes';
+import doubtRoutes from './routes/doubtRoutes';
+import driveRoutes from './routes/driveRoutes';
 
 // Basic health check
 app.get('/api/health', (req: Request, res: Response) => {
@@ -17,6 +19,8 @@ app.get('/api/health', (req: Request, res: Response) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/doubts', doubtRoutes);
+app.use('/api/drive', driveRoutes);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

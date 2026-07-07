@@ -11,11 +11,13 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
+const doubtRoutes_1 = __importDefault(require("./routes/doubtRoutes"));
 // Basic health check
 app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok', message: 'CampusSync Server is running' });
 });
 app.use('/api/users', userRoutes_1.default);
+app.use('/api/doubts', doubtRoutes_1.default);
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
