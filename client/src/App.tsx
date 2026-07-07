@@ -3,6 +3,9 @@ import { StudentLayout } from './components/layout/StudentLayout';
 import DashboardPage from './pages/student/DashboardPage';
 import DoubtSystemPage from './pages/student/DoubtSystemPage';
 import SubjectDrivePage from './pages/student/SubjectDrivePage';
+import FeedbackPage from './pages/student/FeedbackPage';
+import CollaborationPage from './pages/student/CollaborationPage';
+import InternshipPage from './pages/student/InternshipPage';
 
 function App() {
   return (
@@ -16,8 +19,9 @@ function App() {
           <Route index element={<DashboardPage />} />
           <Route path="doubts" element={<DoubtSystemPage />} />
           <Route path="drive" element={<SubjectDrivePage />} />
-          <Route path="feedback" element={<div className="p-10">Feedback Coming Soon</div>} />
-          <Route path="collaboration" element={<div className="p-10">Collaboration Coming Soon</div>} />
+          <Route path="feedback" element={<FeedbackPage />} />
+          <Route path="collaboration" element={<CollaborationPage />} />
+          <Route path="internships" element={<InternshipPage />} />
           <Route path="settings" element={<div className="p-10">Settings Coming Soon</div>} />
         </Route>
       </Routes>

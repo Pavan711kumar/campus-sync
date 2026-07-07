@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, BookOpen, MessageSquare, HandHeart, Users, Settings } from 'lucide-react';
+import { LayoutDashboard, BookOpen, MessageSquare, HandHeart, Users, Settings, Briefcase } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
 
@@ -10,6 +10,7 @@ const navItems = [
   { title: 'Subject Drive', icon: BookOpen, href: '/student/drive' },
   { title: 'Feedback', icon: HandHeart, href: '/student/feedback' },
   { title: 'Collaboration', icon: Users, href: '/student/collaboration' },
+  { title: 'Internships', icon: Briefcase, href: '/student/internships' },
   { title: 'Settings', icon: Settings, href: '/student/settings' },
 ];
 

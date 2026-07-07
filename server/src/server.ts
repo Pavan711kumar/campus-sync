@@ -12,6 +12,9 @@ app.use(express.json());
 import userRoutes from './routes/userRoutes';
 import doubtRoutes from './routes/doubtRoutes';
 import driveRoutes from './routes/driveRoutes';
+import feedbackRoutes from './routes/feedbackRoutes';
+import collaborationRoutes from './routes/collaborationRoutes';
+import internshipRoutes from './routes/internshipRoutes';
 
 // Basic health check
 app.get('/api/health', (req: Request, res: Response) => {
@@ -21,6 +24,9 @@ app.get('/api/health', (req: Request, res: Response) => {
 app.use('/api/users', userRoutes);
 app.use('/api/doubts', doubtRoutes);
 app.use('/api/drive', driveRoutes);
+app.use('/api/feedback', feedbackRoutes);
+app.use('/api/collaboration', collaborationRoutes);
+app.use('/api/internships', internshipRoutes);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
