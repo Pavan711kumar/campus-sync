@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const feedbackController_1 = require("../controllers/feedbackController");
+const auth_1 = require("../middlewares/auth");
+const router = (0, express_1.Router)();
+router.use(auth_1.verifyToken);
+router.post('/', (0, auth_1.requireRole)(['student']), feedbackController_1.submitFeedback);
+router.get('/teacher', (0, auth_1.requireRole)(['teacher', 'admin']), feedbackController_1.getTeacherFeedback);
+exports.default = router;

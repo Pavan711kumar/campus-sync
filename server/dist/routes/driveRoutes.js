@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const driveController_1 = require("../controllers/driveController");
+const auth_1 = require("../middlewares/auth");
+const router = (0, express_1.Router)();
+router.use(auth_1.verifyToken);
+router.get('/subjects', driveController_1.getAllSubjects);
+router.get('/subject/:subject', driveController_1.getFilesBySubject);
+router.post('/upload', (0, auth_1.requireRole)(['student', 'teacher', 'admin']), driveController_1.uploadFileRecord);
+exports.default = router;
