@@ -4,12 +4,12 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || '',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || '',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || ''
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyAQih3tCtFWmNgGO3Sja8HZSuX02f0JAVs',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'campussyc.firebaseapp.com',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'campussyc',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'campussyc.firebasestorage.app',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '1015216356651',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:1015216356651:web:ae27e55f31d2fda2f8d96e'
 };
 
 // Only initialize if we have an API key to prevent blank page crashes

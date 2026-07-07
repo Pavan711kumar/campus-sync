@@ -25,10 +25,8 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    if (!auth?.currentUser && !import.meta.env.VITE_FIREBASE_API_KEY) {
-      toast.error('Firebase configuration is missing! Please set your environment variables.');
-      setIsLoading(false);
-      return;
+    if (!auth?.currentUser && !auth?.name) {
+      // Just check if auth initialized properly, no env check needed anymore since it's hardcoded
     }
 
     try {
