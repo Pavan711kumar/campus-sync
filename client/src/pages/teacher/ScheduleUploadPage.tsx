@@ -3,12 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Upload, Calendar as CalendarIcon, Clock, Save } from 'lucide-react';
+import { Upload, Calendar as CalendarIcon, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 
 const ScheduleUploadPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [slots, setSlots] = useState([
+  const [slots] = useState([
     { day: 'Monday', time: '10:00 AM - 12:00 PM', type: 'Office Hours' }
   ]);
 
