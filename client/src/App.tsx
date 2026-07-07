@@ -8,6 +8,8 @@ import CollaborationPage from './pages/student/CollaborationPage';
 import InternshipPage from './pages/student/InternshipPage';
 import PublicDrivePage from './pages/public/PublicDrivePage';
 
+import HomePage from './pages/public/HomePage';
+
 import { TeacherLayout } from './components/layout/TeacherLayout';
 import TeacherDashboardPage from './pages/teacher/TeacherDashboardPage';
 
@@ -19,7 +21,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<PublicDrivePage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/drive" element={<PublicDrivePage />} />
         
         {/* Student Routes */}
         <Route path="/student" element={<StudentLayout />}>
