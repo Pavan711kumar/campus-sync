@@ -31,7 +31,7 @@ app.use('/api/feedback', feedbackRoutes_1.default);
 app.use('/api/collaboration', collaborationRoutes_1.default);
 app.use('/api/internships', internshipRoutes_1.default);
 // Catch-all handler for React Router
-app.get('*', (req, res) => {
+app.get(/(.*)/, (req, res) => {
     res.sendFile(path_1.default.join(__dirname, '../../client/dist/index.html'));
 });
 // Error handling middleware
