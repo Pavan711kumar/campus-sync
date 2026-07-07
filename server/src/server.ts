@@ -16,6 +16,11 @@ import feedbackRoutes from './routes/feedbackRoutes';
 import collaborationRoutes from './routes/collaborationRoutes';
 import internshipRoutes from './routes/internshipRoutes';
 
+// Root endpoint
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).send('Welcome to CampusSync API');
+});
+
 // Basic health check
 app.get('/api/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'ok', message: 'CampusSync Server is running' });
