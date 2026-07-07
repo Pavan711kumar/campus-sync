@@ -21,6 +21,7 @@ import NotificationCenterPage from './pages/admin/NotificationCenterPage';
 import { AuthProvider } from './contexts/AuthContext';
 import ScheduleUploadPage from './pages/teacher/ScheduleUploadPage';
 import RequestManagementPage from './pages/teacher/RequestManagementPage';
+import { Toaster } from 'sonner';
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
           <Route path="settings" element={<div className="p-10">Settings Coming Soon</div>} />
         </Route>
       </Routes>
+      <Toaster position="top-right" richColors />
     </BrowserRouter>
     </AuthProvider>
   );
