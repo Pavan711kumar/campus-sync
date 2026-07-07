@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { GraduationCap, ArrowRight, UserPlus } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
@@ -136,15 +135,15 @@ const RegisterPage: React.FC = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="role">I am a...</Label>
-                  <Select value={formData.role} onValueChange={(value) => setFormData({...formData, role: value})}>
-                    <SelectTrigger className="bg-slate-50/50 dark:bg-slate-950/50">
-                      <SelectValue placeholder="Select your role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="student">Student</SelectItem>
-                      <SelectItem value="teacher">Teacher</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <select 
+                    id="role"
+                    value={formData.role} 
+                    onChange={(e) => setFormData({...formData, role: e.target.value})}
+                    className="flex h-10 w-full items-center justify-between rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus:ring-slate-300"
+                  >
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                  </select>
                 </div>
               </CardContent>
               <CardFooter className="flex flex-col gap-4">
