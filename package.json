@@ -1,0 +1,9 @@
+{
+  "name": "campussync-monorepo",
+  "version": "1.0.0",
+  "description": "CampusSync Root Monorepo",
+  "scripts": {
+    "build": "cd client && npm install && npm run build && cd ../server && npm install && npm run build",
+    "start": "cd server && npm start"
+  }
+}

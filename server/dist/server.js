@@ -16,10 +16,10 @@ const driveRoutes_1 = __importDefault(require("./routes/driveRoutes"));
 const feedbackRoutes_1 = __importDefault(require("./routes/feedbackRoutes"));
 const collaborationRoutes_1 = __importDefault(require("./routes/collaborationRoutes"));
 const internshipRoutes_1 = __importDefault(require("./routes/internshipRoutes"));
-// Root endpoint
-app.get('/', (req, res) => {
-    res.status(200).send('Welcome to CampusSync API');
-});
+const path_1 = __importDefault(require("path"));
+// Root endpoint replaced by static serving
+// Serve static files from the React frontend app
+app.use(express_1.default.static(path_1.default.join(__dirname, '../../client/dist')));
 // Basic health check
 app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok', message: 'CampusSync Server is running' });
@@ -30,6 +30,10 @@ app.use('/api/drive', driveRoutes_1.default);
 app.use('/api/feedback', feedbackRoutes_1.default);
 app.use('/api/collaboration', collaborationRoutes_1.default);
 app.use('/api/internships', internshipRoutes_1.default);
+// Catch-all handler for React Router
+app.get('*', (req, res) => {
+    res.sendFile(path_1.default.join(__dirname, '../../client/dist/index.html'));
+});
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

@@ -16,10 +16,11 @@ import feedbackRoutes from './routes/feedbackRoutes';
 import collaborationRoutes from './routes/collaborationRoutes';
 import internshipRoutes from './routes/internshipRoutes';
 
-// Root endpoint
-app.get('/', (req: Request, res: Response) => {
-  res.status(200).send('Welcome to CampusSync API');
-});
+import path from 'path';
+
+// Root endpoint replaced by static serving
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 // Basic health check
 app.get('/api/health', (req: Request, res: Response) => {
@@ -32,6 +33,11 @@ app.use('/api/drive', driveRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/collaboration', collaborationRoutes);
 app.use('/api/internships', internshipRoutes);
+
+// Catch-all handler for React Router
+app.get('*', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+});
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
