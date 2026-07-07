@@ -25,6 +25,12 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     
+    if (!auth?.currentUser && !import.meta.env.VITE_FIREBASE_API_KEY) {
+      toast.error('Firebase configuration is missing! Please set your environment variables.');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;

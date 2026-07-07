@@ -21,6 +21,12 @@ const HomePage: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     
+    if (!auth?.currentUser && !import.meta.env.VITE_FIREBASE_API_KEY) {
+      toast.error('Firebase configuration is missing! Please set your environment variables.');
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
