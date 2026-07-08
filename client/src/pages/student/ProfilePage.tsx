@@ -24,6 +24,18 @@ export default function ProfilePage() {
     skills: profile?.skills || 'React, Node.js, Python, Firebase'
   });
 
+  React.useEffect(() => {
+    if (profile) {
+      setFormData({
+        name: profile.name || 'Student Name',
+        phone: profile.phone || '+91 9876543210',
+        resume: profile.resume || 'https://drive.google.com/file/d/my-resume',
+        branchSection: profile.branchSection || 'Computer Science - Section A',
+        skills: profile.skills || 'React, Node.js, Python, Firebase'
+      });
+    }
+  }, [profile]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
   };
@@ -121,10 +133,12 @@ export default function ProfilePage() {
                 <FileText className="w-4 h-4" /> Resume Link
               </Label>
               {isEditing ? (
-                <Input id="resume" value={formData.resume} onChange={handleChange} placeholder="https://..." />
+                <Input id="resume" value={formData.resume || ''} onChange={handleChange} placeholder="https://..." />
               ) : (
-                <a href={formData.resume} target="_blank" rel="noreferrer" className="text-lg font-medium text-blue-600 dark:text-blue-400 hover:underline">
-                  {formData.resume.length > 30 ? formData.resume.substring(0, 30) + '...' : formData.resume}
+                <a href={formData.resume || '#'} target="_blank" rel="noreferrer" className="text-lg font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                  {formData.resume && typeof formData.resume === 'string' && formData.resume.length > 30 
+                    ? formData.resume.substring(0, 30) + '...' 
+                    : (formData.resume || 'No resume linked')}
                 </a>
               )}
             </div>
@@ -135,14 +149,16 @@ export default function ProfilePage() {
                 <Wrench className="w-4 h-4" /> Technical Skills
               </Label>
               {isEditing ? (
-                <Input id="skills" value={formData.skills} onChange={handleChange} placeholder="e.g. React, Node.js, Design" />
+                <Input id="skills" value={formData.skills || ''} onChange={handleChange} placeholder="e.g. React, Node.js, Design" />
               ) : (
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {formData.skills.split(',').map((skill: string, i: number) => (
+                  {typeof formData.skills === 'string' ? formData.skills.split(',').map((skill: string, i: number) => (
                     <span key={i} className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-full text-sm font-medium border border-slate-200 dark:border-slate-700">
                       {skill.trim()}
                     </span>
-                  ))}
+                  )) : (
+                    <span className="text-slate-500">No skills added</span>
+                  )}
                 </div>
               )}
             </div>
