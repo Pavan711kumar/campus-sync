@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Briefcase, Building2, MapPin, Clock, DollarSign } from 'lucide-react';
+import { Briefcase, Building2, MapPin, Clock, IndianRupee } from 'lucide-react';
 
 const mockInternships = [
   {
@@ -12,7 +12,7 @@ const mockInternships = [
     role: 'Frontend Engineering Intern',
     location: 'Remote',
     duration: '3 Months',
-    stipend: '$1000/mo',
+    stipend: '₹25,000/mo',
     tags: ['React', 'TypeScript', 'Web'],
     type: 'Summer Internship'
   },
@@ -20,7 +20,7 @@ const mockInternships = [
     id: '2',
     company: 'InnovateX Labs',
     role: 'Data Science Intern',
-    location: 'New York, NY',
+    location: 'New Delhi, DL',
     duration: '6 Months',
     stipend: 'Unpaid',
     tags: ['Python', 'Machine Learning'],
@@ -79,7 +79,7 @@ const InternshipPage: React.FC = () => {
                     {internship.duration}
                   </div>
                   <div className="flex items-center">
-                    <DollarSign className="w-4 h-4 mr-2 text-slate-400" />
+                    <IndianRupee className="w-4 h-4 mr-2 text-slate-400" />
                     {internship.stipend}
                   </div>
                 </div>

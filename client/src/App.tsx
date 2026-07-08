@@ -7,6 +7,7 @@ import FeedbackPage from './pages/student/FeedbackPage';
 import CollaborationPage from './pages/student/CollaborationPage';
 import InternshipPage from './pages/student/InternshipPage';
 import PublicDrivePage from './pages/public/PublicDrivePage';
+import ProfilePage from './pages/student/ProfilePage';
 
 import HomePage from './pages/public/HomePage';
 import RegisterPage from './pages/public/RegisterPage';
@@ -41,6 +42,7 @@ function App() {
           <Route path="feedback" element={<FeedbackPage />} />
           <Route path="collaboration" element={<CollaborationPage />} />
           <Route path="internships" element={<InternshipPage />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route path="settings" element={<div className="p-10">Settings Coming Soon</div>} />
         </Route>
 

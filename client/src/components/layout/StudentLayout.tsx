@@ -49,16 +49,16 @@ export const StudentLayout: React.FC = () => {
         </nav>
 
         <div className="p-4 border-t border-slate-200 dark:border-slate-800">
-          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+          <Link to="/student/profile" className="flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=Student" />
               <AvatarFallback>ST</AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-medium">Student Name</p>
-              <p className="text-xs text-slate-500">View Profile</p>
+              <p className="text-sm font-medium">My Profile</p>
+              <p className="text-xs text-slate-500 hover:text-blue-500 transition-colors">Edit Profile</p>
             </div>
-          </div>
+          </Link>
         </div>
       </aside>
 
