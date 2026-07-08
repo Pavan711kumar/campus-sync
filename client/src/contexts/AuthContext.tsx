@@ -10,6 +10,10 @@ export interface UserProfile {
   role: 'student' | 'teacher' | 'admin';
   branch?: string;
   department?: string;
+  phone?: string;
+  resume?: string;
+  branchSection?: string;
+  skills?: string;
 }
 
 interface AuthContextType {

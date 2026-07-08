@@ -1,38 +1,38 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, Phone, FileText, BookOpen, Wrench, Edit2, Save, X } from 'lucide-react';
+import { Phone, FileText, BookOpen, Wrench, Edit2, Save, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { toast } from 'sonner';
 
 export default function ProfilePage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
   // Default values or user values
-  const [profile, setProfile] = useState({
-    name: user?.name || 'Student Name',
-    phone: user?.phone || '+91 9876543210',
-    resume: user?.resume || 'https://drive.google.com/file/d/my-resume',
-    branchSection: user?.branchSection || 'Computer Science - Section A',
-    skills: user?.skills || 'React, Node.js, Python, Firebase'
+  const [formData, setFormData] = useState({
+    name: profile?.name || 'Student Name',
+    phone: profile?.phone || '+91 9876543210',
+    resume: profile?.resume || 'https://drive.google.com/file/d/my-resume',
+    branchSection: profile?.branchSection || 'Computer Science - Section A',
+    skills: profile?.skills || 'React, Node.js, Python, Firebase'
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfile(prev => ({ ...prev, [e.target.id]: e.target.value }));
+    setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
   const handleSave = async () => {
     if (!user?.uid) return;
     setIsLoading(true);
     try {
-      await updateDoc(doc(db, 'users', user.uid), profile);
+      await updateDoc(doc(db, 'users', user.uid), formData);
       toast.success('Profile updated successfully!');
       setIsEditing(false);
     } catch (error) {
@@ -72,18 +72,18 @@ export default function ProfilePage() {
       <Card className="border-slate-200 dark:border-slate-800 shadow-sm bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
         <CardHeader className="flex flex-row items-center gap-6 pb-8 border-b border-slate-100 dark:border-slate-800">
           <Avatar className="w-24 h-24 border-4 border-slate-50 dark:border-slate-950 shadow-md">
-            <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.name}`} />
+            <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.name}`} />
             <AvatarFallback className="text-2xl">ST</AvatarFallback>
           </Avatar>
           <div className="space-y-1">
             {isEditing ? (
-              <Input id="name" value={profile.name} onChange={handleChange} className="text-2xl font-bold h-12 w-80" />
+              <Input id="name" value={formData.name} onChange={handleChange} className="text-2xl font-bold h-12 w-80" />
             ) : (
-              <CardTitle className="text-3xl font-bold">{profile.name}</CardTitle>
+              <CardTitle className="text-3xl font-bold">{formData.name}</CardTitle>
             )}
             <CardDescription className="text-base text-slate-500 flex items-center mt-2">
               <BookOpen className="w-4 h-4 mr-2" />
-              {profile.branchSection}
+              {formData.branchSection}
             </CardDescription>
           </div>
         </CardHeader>
@@ -97,9 +97,9 @@ export default function ProfilePage() {
                 <Phone className="w-4 h-4" /> Phone Number
               </Label>
               {isEditing ? (
-                <Input id="phone" value={profile.phone} onChange={handleChange} />
+                <Input id="phone" value={formData.phone} onChange={handleChange} />
               ) : (
-                <p className="text-lg font-medium text-slate-800 dark:text-slate-200">{profile.phone}</p>
+                <p className="text-lg font-medium text-slate-800 dark:text-slate-200">{formData.phone}</p>
               )}
             </div>
 
@@ -109,9 +109,9 @@ export default function ProfilePage() {
                 <BookOpen className="w-4 h-4" /> Branch & Section
               </Label>
               {isEditing ? (
-                <Input id="branchSection" value={profile.branchSection} onChange={handleChange} />
+                <Input id="branchSection" value={formData.branchSection} onChange={handleChange} />
               ) : (
-                <p className="text-lg font-medium text-slate-800 dark:text-slate-200">{profile.branchSection}</p>
+                <p className="text-lg font-medium text-slate-800 dark:text-slate-200">{formData.branchSection}</p>
               )}
             </div>
 
@@ -121,10 +121,10 @@ export default function ProfilePage() {
                 <FileText className="w-4 h-4" /> Resume Link
               </Label>
               {isEditing ? (
-                <Input id="resume" value={profile.resume} onChange={handleChange} placeholder="https://..." />
+                <Input id="resume" value={formData.resume} onChange={handleChange} placeholder="https://..." />
               ) : (
-                <a href={profile.resume} target="_blank" rel="noreferrer" className="text-lg font-medium text-blue-600 dark:text-blue-400 hover:underline">
-                  {profile.resume.length > 30 ? profile.resume.substring(0, 30) + '...' : profile.resume}
+                <a href={formData.resume} target="_blank" rel="noreferrer" className="text-lg font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                  {formData.resume.length > 30 ? formData.resume.substring(0, 30) + '...' : formData.resume}
                 </a>
               )}
             </div>
@@ -135,10 +135,10 @@ export default function ProfilePage() {
                 <Wrench className="w-4 h-4" /> Technical Skills
               </Label>
               {isEditing ? (
-                <Input id="skills" value={profile.skills} onChange={handleChange} placeholder="e.g. React, Node.js, Design" />
+                <Input id="skills" value={formData.skills} onChange={handleChange} placeholder="e.g. React, Node.js, Design" />
               ) : (
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {profile.skills.split(',').map((skill, i) => (
+                  {formData.skills.split(',').map((skill: string, i: number) => (
                     <span key={i} className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-full text-sm font-medium border border-slate-200 dark:border-slate-700">
                       {skill.trim()}
                     </span>
