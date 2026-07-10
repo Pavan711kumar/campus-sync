@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, BarChart, Bar } from 'recharts';
-import { BookOpen, Target, TrendingUp, Award } from 'lucide-react';
+import { BookOpen, Target, TrendingUp, Award, Car, Package, Users, Heart, Handshake } from 'lucide-react';
 
 const performanceData = [
   { month: 'Jan', score: 65 },
@@ -21,14 +21,56 @@ const attendanceData = [
   { week: 'W6', attendance: 95 },
 ];
 
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
+const modules = [
+  { title: 'Rides', desc: 'Share rides with fellow students.', icon: <Car className="w-5 h-5 text-white" />, color: 'bg-[#E0F2FE]', iconBg: 'bg-[#38BDF8]', route: '/student/drive' },
+  { title: 'Rent & Lend', desc: 'Borrow or lend items.', icon: <Package className="w-5 h-5 text-white" />, color: 'bg-[#F3E8FF]', iconBg: 'bg-[#A855F7]', route: '/student/internships' },
+  { title: 'Errands', desc: 'Get help with quick tasks.', icon: <Users className="w-5 h-5 text-white" />, color: 'bg-[#FFEDD5]', iconBg: 'bg-[#F97316]', route: '/student/doubts' },
+  { title: 'Volunteering', desc: 'Join campus events.', icon: <Heart className="w-5 h-5 text-white" />, color: 'bg-[#D1FAE5]', iconBg: 'bg-[#10B981]', route: '/student/feedback' },
+  { title: 'Collaboration', desc: 'Find teammates for projects.', icon: <Handshake className="w-5 h-5 text-white" />, color: 'bg-[#FCE7F3]', iconBg: 'bg-[#EC4899]', route: '/student/collaboration' },
+  { title: 'Academic Support', desc: 'Post & answer doubts.', icon: <BookOpen className="w-5 h-5 text-white" />, color: 'bg-[#E0E7FF]', iconBg: 'bg-[#6366F1]', route: '/student/doubts' },
+];
+
 const DashboardPage: React.FC = () => {
+  const { profile } = useAuth();
+  const navigate = useNavigate();
+
   return (
-    <div className="space-y-6 pb-10">
+    <div className="space-y-12 pb-10">
+      {/* Welcome Section */}
       <div>
-        <h2 className="text-3xl font-bold tracking-tight text-slate-800 dark:text-slate-100">Student Dashboard</h2>
-        <p className="text-slate-500 dark:text-slate-400">Welcome back! Here is your academic overview.</p>
+        <h2 className="text-3xl font-extrabold tracking-tight text-[#111827] dark:text-white uppercase">
+          Hello, {profile?.name?.toUpperCase() || 'STUDENT'}! 👋
+        </h2>
+        <p className="text-[#6B7280] dark:text-slate-400 mt-2 text-lg">What would you like to do today?</p>
       </div>
 
+      {/* Explore Modules Grid */}
+      <div className="space-y-4">
+        <h3 className="text-xl font-bold text-[#111827] dark:text-white">Explore Modules</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {modules.map((mod, idx) => (
+            <div 
+              key={idx} 
+              onClick={() => navigate(mod.route)}
+              className={`${mod.color} rounded-2xl p-6 cursor-pointer hover:shadow-md transition-all duration-200 hover:-translate-y-1`}
+            >
+              <div className={`${mod.iconBg} w-12 h-12 rounded-full flex items-center justify-center mb-4 shadow-sm`}>
+                {mod.icon}
+              </div>
+              <h4 className="text-xl font-bold text-slate-900 mb-1">{mod.title}</h4>
+              <p className="text-slate-600 text-sm">{mod.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <hr className="border-slate-200 dark:border-slate-800" />
+      
+      <div>
+        <h3 className="text-xl font-bold text-[#111827] dark:text-white mb-6">Your Performance</h3>
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border-slate-200 dark:border-slate-800 shadow-sm">
@@ -136,7 +178,7 @@ const DashboardPage: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-
+      </div>
       </div>
     </div>
   );

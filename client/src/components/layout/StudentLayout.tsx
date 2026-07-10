@@ -1,79 +1,74 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, BookOpen, MessageSquare, HandHeart, Users, Settings, Briefcase } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
+// Using exact labels from the reference image for UI/UX matching, but routing to existing pages
 const navItems = [
-  { title: 'Dashboard', icon: LayoutDashboard, href: '/student' },
-  { title: 'Doubt System', icon: MessageSquare, href: '/student/doubts' },
-  { title: 'Subject Drive', icon: BookOpen, href: '/student/drive' },
-  { title: 'Feedback', icon: HandHeart, href: '/student/feedback' },
-  { title: 'Collaboration', icon: Users, href: '/student/collaboration' },
-  { title: 'Internships', icon: Briefcase, href: '/student/internships' },
-  { title: 'Settings', icon: Settings, href: '/student/settings' },
+  { title: 'Dashboard', href: '/student' },
+  { title: 'Rides', href: '/student/drive' }, // Mapping Drive to Rides visually
+  { title: 'Rent', href: '/student/internships' }, // Mapping Internships to Rent visually
+  { title: 'Errands', href: '/student/doubts' }, // Mapping Doubts to Errands visually
+  { title: 'Collaboration', href: '/student/collaboration' }, 
 ];
 
 export const StudentLayout: React.FC = () => {
   const location = useLocation();
+  const { profile } = useAuth();
 
   return (
-    <div className="flex h-screen bg-slate-50/50 dark:bg-slate-950/50">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col">
-        <div className="p-6">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            CampusSync
-          </h2>
-        </div>
+    <div className="flex flex-col h-screen bg-[#FDFDFD] dark:bg-slate-950 font-sans">
+      {/* Top Navbar */}
+      <header className="h-16 flex items-center justify-between px-6 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 shrink-0 shadow-sm z-50">
         
-        <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
+        {/* Left: Logo */}
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-[#8A2BE2] flex items-center justify-center shadow-inner">
+            <span className="text-white font-bold text-sm">C</span>
+          </div>
+          <span className="font-bold text-xl text-[#5B21B6] dark:text-purple-400 tracking-tight">
+            CampusConnect
+          </span>
+        </div>
+
+        {/* Center: Navigation Pills */}
+        <nav className="hidden md:flex items-center space-x-2">
           {navItems.map((item) => {
-            const isActive = location.pathname === item.href || location.pathname.startsWith(item.href + '/');
+            const isActive = location.pathname === item.href || (item.href !== '/student' && location.pathname.startsWith(item.href + '/'));
             return (
               <Link
                 key={item.href}
                 to={item.href}
                 className={cn(
-                  "flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200",
+                  "px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200",
                   isActive 
-                    ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 font-medium shadow-sm" 
-                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    ? "bg-[#F3F4F6] dark:bg-slate-800 text-[#111827] dark:text-white" 
+                    : "text-[#4B5563] dark:text-slate-400 hover:bg-[#F9FAFB] dark:hover:bg-slate-800/50 hover:text-[#111827] dark:hover:text-white"
                 )}
               >
-                <item.icon className="h-5 w-5" />
-                <span>{item.title}</span>
+                {item.title}
               </Link>
             )
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800">
-          <Link to="/student/profile" className="flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
-            <Avatar>
-              <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=Student" />
-              <AvatarFallback>ST</AvatarFallback>
+        {/* Right: Avatar */}
+        <div className="flex items-center gap-4">
+          <Link to="/student/profile" className="cursor-pointer hover:opacity-80 transition-opacity">
+            <Avatar className="w-9 h-9 ring-2 ring-slate-100 dark:ring-slate-800">
+              <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.name || 'Student'}`} />
+              <AvatarFallback className="bg-purple-100 text-purple-700 font-medium">
+                {(profile?.name || 'S').charAt(0).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
-            <div>
-              <p className="text-sm font-medium">My Profile</p>
-              <p className="text-xs text-slate-500 hover:text-blue-500 transition-colors">Edit Profile</p>
-            </div>
           </Link>
         </div>
-      </aside>
+      </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center px-8 z-10 sticky top-0">
-          <h1 className="text-lg font-semibold text-slate-800 dark:text-slate-200">
-            {navItems.find(item => location.pathname.includes(item.href))?.title || 'Dashboard'}
-          </h1>
-        </header>
-        
-        <div className="flex-1 overflow-auto p-8 relative">
-          {/* Animated Background Gradients (Optional Glassmorphism) */}
-          <div className="absolute top-0 left-0 w-full h-[300px] bg-gradient-to-b from-blue-50/50 to-transparent dark:from-blue-900/10 -z-10 pointer-events-none" />
-          
+      <main className="flex-1 overflow-auto bg-[#FDFDFD] dark:bg-slate-950 relative">
+        <div className="max-w-7xl mx-auto p-4 md:p-8">
           <Outlet />
         </div>
       </main>
