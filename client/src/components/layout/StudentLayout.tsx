@@ -30,7 +30,7 @@ export const StudentLayout: React.FC = () => {
             <span className="text-white font-bold text-sm">C</span>
           </div>
           <span className="font-bold text-xl text-[#5B21B6] dark:text-purple-400 tracking-tight">
-            CampusConnect
+            Campus-Sync
           </span>
         </div>
 

@@ -67,7 +67,7 @@ export default function HomePage() {
           <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
             <span className="text-white font-bold text-lg">C</span>
           </div>
-          <span className="text-white font-bold text-2xl tracking-tight">CampusConnect</span>
+          <span className="text-white font-bold text-2xl tracking-tight">Campus-Sync</span>
         </div>
         
         <Dialog open={loginOpen} onOpenChange={setLoginOpen}>
@@ -176,7 +176,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="w-full text-center py-6 text-white/70 text-sm z-10 font-medium">
-        © 2026 CampusConnect. Made for students, by students.
+        © 2026 Campus-Sync. Made for students, by students.
       </footer>
     </div>
   );
