@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -16,6 +17,7 @@ const navItems = [
 export const StudentLayout: React.FC = () => {
   const location = useLocation();
   const { profile } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="flex flex-col h-screen bg-[#FDFDFD] dark:bg-slate-950 font-sans">
@@ -63,8 +65,38 @@ export const StudentLayout: React.FC = () => {
               </AvatarFallback>
             </Avatar>
           </Link>
+          <button 
+            className="md:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </header>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-4 pt-2 pb-4 space-y-1 shadow-lg absolute top-16 left-0 w-full z-40">
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.href || (item.href !== '/student' && location.pathname.startsWith(item.href + '/'));
+            return (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={cn(
+                  "block px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200",
+                  isActive 
+                    ? "bg-[#F3F4F6] dark:bg-slate-800 text-[#111827] dark:text-white" 
+                    : "text-[#4B5563] dark:text-slate-400 hover:bg-[#F9FAFB] dark:hover:bg-slate-800/50 hover:text-[#111827] dark:hover:text-white"
+                )}
+              >
+                {item.title}
+              </Link>
+            )
+          })}
+        </div>
+      )}
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto bg-[#FDFDFD] dark:bg-slate-950 relative">
